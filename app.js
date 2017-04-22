@@ -52,8 +52,10 @@ var updateDisplayedJoke = function () {
 var addJokeInput = document.getElementById('add-joke')
 var addJokeSetup = document.getElementById('setup-joke')
 var addJokePunch = document.getElementById('punchline-joke')
+
+// Why doesn't dot notation work but bracket notation does.
 var addJoke = function () {
-  jokes.addJokeInput.value = {
+  jokes[addJokeInput.value] = {
     setup: addJokeSetup.value,
     punchline: addJokePunch.value
   }
@@ -61,10 +63,11 @@ var addJoke = function () {
 }
 
 // Delete on button press then update the Jokes Menu
-var JokeToDelete = document.getElementById('delete-joke')
+var userDelete = document.getElementById('delete-joke')
+
 var deleteJoke = function () {
-  var byeJoke = JokeToDelete.value
-  delete jokes[byeJoke]
+  var JokeToDelete = userDelete.value
+  delete jokes[JokeToDelete]
   updateJokesMenu()
 }
 
