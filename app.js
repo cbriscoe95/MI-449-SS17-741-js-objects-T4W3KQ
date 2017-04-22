@@ -35,9 +35,37 @@ var updateJokesMenu = function () {
 // Update the displayed joke, based on the requested joke
 var requestedJokeInput = document.getElementById('requested-joke')
 var jokeBox = document.getElementById('joke-box')
+
 var updateDisplayedJoke = function () {
   var requestedJokeKey = requestedJokeInput.value
-  jokeBox.textContent = requestedJokeKey
+  var requestedJoke = jokes[requestedJokeKey]
+  // If the requestedJoke is not undefined, display its setup and punchline
+  if (requestedJoke) {
+    jokeBox.innerHTML = '<p>' + requestedJoke.setup + '</p>' +
+     '<p>' + requestedJoke.punchline + '</p>'
+  } else {
+    jokeBox.innerHTML = 'No matching joke'
+  }
+}
+
+// Add the requested joke
+var addJokeInput = document.getElementById('add-joke')
+var addJokeSetup = document.getElementById('setup-joke')
+var addJokePunch = document.getElementById('punchline-joke')
+var addJoke = function () {
+  jokes.addJokeInput.value = {
+    setup: addJokeSetup.value,
+    punchline: addJokePunch.value
+  }
+  updateJokesMenu()
+}
+
+// Delete on button press then update the Jokes Menu
+var JokeToDelete = document.getElementById('delete-joke')
+var deleteJoke = function () {
+  var byeJoke = JokeToDelete.value
+  delete jokes[byeJoke]
+  updateJokesMenu()
 }
 
 // Function to keep track of all other
