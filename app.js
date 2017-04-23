@@ -35,14 +35,14 @@ var updateJokesMenu = function () {
 // Update the displayed joke, based on the requested joke
 var requestedJokeInput = document.getElementById('requested-joke')
 var jokeBox = document.getElementById('joke-box')
-
 var updateDisplayedJoke = function () {
   var requestedJokeKey = requestedJokeInput.value
   var requestedJoke = jokes[requestedJokeKey]
   // If the requestedJoke is not undefined, display its setup and punchline
   if (requestedJoke) {
-    jokeBox.innerHTML = '<p>' + requestedJoke.setup + '</p>' +
-     '<p>' + requestedJoke.punchline + '</p>'
+    jokeBox.innerHTML =
+      '<p>' + requestedJoke.setup + '</p>' +
+      '<p>' + requestedJoke.punchline + '</p>'
   } else {
     jokeBox.innerHTML = 'No matching joke'
   }
@@ -52,22 +52,21 @@ var updateDisplayedJoke = function () {
 var addJokeInput = document.getElementById('add-joke')
 var addJokeSetup = document.getElementById('setup-joke')
 var addJokePunch = document.getElementById('punchline-joke')
-
-// Why doesn't dot notation work but bracket notation does.
 var addJoke = function () {
   jokes[addJokeInput.value] = {
     setup: addJokeSetup.value,
     punchline: addJokePunch.value
   }
+  setJokes()
   updateJokesMenu()
 }
 
 // Delete on button press then update the Jokes Menu
-var userDelete = document.getElementById('delete-joke')
-
+var DeleteJokeInput = document.getElementById('delete-joke')
 var deleteJoke = function () {
-  var JokeToDelete = userDelete.value
-  delete jokes[JokeToDelete]
+  var deleteJokeKey = DeleteJokeInput.value
+  delete jokes[deleteJokeKey]
+  setJokes()
   updateJokesMenu()
 }
 
@@ -75,8 +74,28 @@ var deleteJoke = function () {
 // page update functions, so that we
 // can call them all at once
 var updatePage = function () {
+  getJokes()
   updateJokesMenu()
   updateDisplayedJoke()
+}
+
+// -------------
+// Local Storage
+// -------------
+
+var setJokes = function () {
+  var stringifiedJokes = JSON.stringify(jokes)
+  if (stringifiedJokes) {
+    window.localStorage.setItem('jokes', stringifiedJokes)
+  }
+  updatePage()
+}
+
+var getJokes = function () {
+  var stringifiedJokes = window.localStorage.getItem('jokes')
+  if (stringifiedJokes) {
+    jokes = JSON.parse(stringifiedJokes)
+  }
 }
 
 // -------
